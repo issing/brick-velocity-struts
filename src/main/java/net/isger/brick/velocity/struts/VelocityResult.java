@@ -5,12 +5,12 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.isger.brick.velocity.ContextSecretary;
-import net.isger.brick.velocity.VelocityConstants;
-import net.isger.brick.velocity.VelocityContext;
-import net.isger.brick.velocity.bean.LayoutBean;
-import net.isger.brick.velocity.bean.ThemeBean;
 import net.isger.util.Strings;
+import net.isger.velocity.ContextSecretary;
+import net.isger.velocity.VelocityConstants;
+import net.isger.velocity.VelocityContext;
+import net.isger.velocity.bean.LayoutBean;
+import net.isger.velocity.bean.ThemeBean;
 
 import org.apache.struts2.views.velocity.VelocityManager;
 import org.apache.velocity.Template;

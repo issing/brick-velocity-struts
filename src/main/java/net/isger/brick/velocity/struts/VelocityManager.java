@@ -10,8 +10,9 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
-import net.isger.brick.velocity.VelocityConstants;
-import net.isger.brick.velocity.directive.DirectiveLibrary;
+import net.isger.util.Strings;
+import net.isger.velocity.VelocityConstants;
+import net.isger.velocity.directive.DirectiveLibrary;
 
 import com.opensymphony.xwork2.inject.Container;
 
@@ -53,8 +54,13 @@ public class VelocityManager extends
                 }
             }
         }
-        props.setProperty(KEY_DIRECTIVE,
-                buffer.append(props.getProperty(KEY_DIRECTIVE)).toString());
+        String directive = props.getProperty(KEY_DIRECTIVE);
+        if (Strings.isEmpty(directive)) {
+            buffer.setLength(buffer.length() - 2);
+        } else {
+            buffer.append(directive);
+        }
+        props.setProperty(KEY_DIRECTIVE, buffer.toString());
         // 初始默认配置
         initProperty(props, KEY_LAYOUT_PATH, LAYOUT_PATH);
         initProperty(props, KEY_LAYOUT_NAME, LAYOUT_NAME);
@@ -64,8 +70,8 @@ public class VelocityManager extends
     }
 
     private void initProperty(Properties props, String key, String def) {
-        String val = props.getProperty(key);
-        if (val == null || val.trim().length() == 0) {
+        String value = props.getProperty(key);
+        if (Strings.isEmpty(value)) {
             props.setProperty(key, def);
         }
     }
