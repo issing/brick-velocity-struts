@@ -4,15 +4,15 @@
     "http://struts.apache.org/dtds/struts-2.1.7.dtd">
 <struts>
   <constant name="struts.velocity.manager.classname"
-    value="net.isger.brick.velocity.struts.VelocityManager" />
+    value="net.isger.velocity.struts.VelocityManager" />
 
-  <bean type="net.isger.brick.velocity.directive.DirectiveLibrary"
-    name="x" class="net.isger.brick.velocity.directive.DefaultDirectiveLibrary" />
+  <bean type="net.isger.velocity.directive.DirectiveLibrary"
+    name="x" class="net.isger.velocity.directive.DefaultDirectiveLibrary" />
 
   <package name="brick-velocity" extends="brick-default">
     <result-types>
       <result-type name="velocity"
-        class="net.isger.brick.velocity.struts.VelocityResult" default="true" />
+        class="net.isger.velocity.struts.VelocityResult" default="true" />
     </result-types>
 
     <global-results>

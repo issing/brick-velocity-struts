@@ -1,4 +1,4 @@
-package net.isger.brick.velocity.struts;
+package net.isger.velocity.struts;
 
 import java.io.StringWriter;
 
