@@ -3,11 +3,10 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
     "http://struts.apache.org/dtds/struts-2.1.7.dtd">
 <struts>
-  <constant name="struts.velocity.manager.classname"
-    value="net.isger.velocity.struts.VelocityManager" />
+  <constant name="struts.velocity.manager.classname" value="net.isger.velocity.struts.VelocityManager" />
 
-  <bean type="net.isger.velocity.directive.DirectiveLibrary"
-    name="x" class="net.isger.velocity.directive.DefaultDirectiveLibrary" />
+  <bean type="net.isger.velocity.directive.DirectiveLibrary" name="x"
+    class="net.isger.velocity.directive.DefaultDirectiveLibrary" />
 
   <package name="brick-velocity" extends="brick-default">
     <result-types>
@@ -19,6 +18,9 @@
       <result name="failure">
         <param name="location">/failure</param>
       </result>
+      <result name="unauth">
+        <param name="location">/unauth</param>
+      </result>
     </global-results>
 
     <action name="**!*" class="net.isger.brick.struts.BrickAction">
@@ -29,6 +31,7 @@
         <param name="themeName">${screen.see("@themeName", "")}</param>
         <param name="layoutSupport">${screen.see("@layoutSupport", "")}</param>
         <param name="layoutName">${screen.see("@layoutName", "")}</param>
+        <param name="layoutCarry">${screen.see("@layoutCarry", "")}</param>
       </result>
     </action>
   </package>

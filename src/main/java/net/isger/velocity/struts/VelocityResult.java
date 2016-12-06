@@ -48,6 +48,8 @@ public class VelocityResult extends
 
     private String layoutName;
 
+    private String layoutCarry;
+
     private ThemeBean theme;
 
     private LayoutBean layout;
@@ -97,10 +99,14 @@ public class VelocityResult extends
                 this.layoutPath, LAYOUT_PATH));
         this.layout.setName(getProperty(stack, velocity, KEY_LAYOUT_NAME,
                 this.layoutName, LAYOUT_NAME) + velocitySuffix);
+        this.layout.setCarry(Boolean.parseBoolean(getProperty(stack, velocity,
+                KEY_LAYOUT_CARRY, this.layoutCarry, LAYOUT_CARRY)));
         if (this.layout.isSupport()) {
             // 提取内容页面
-            this.template = super.getTemplate(stack, velocity, invocation,
-                    this.theme.getLocation(), encoding);
+            if (this.layout.isCarry()) {
+                this.template = super.getTemplate(stack, velocity, invocation,
+                        this.theme.getLocation(), encoding);
+            }
             // 获取布局参数
             StringBuffer buffer = new StringBuffer(128);
             buffer.append(this.layout.getPath());
@@ -181,6 +187,10 @@ public class VelocityResult extends
 
     public void setLayoutName(String layoutName) {
         this.layoutName = layoutName;
+    }
+
+    public void setLayoutCarry(String layoutCarry) {
+        this.layoutCarry = layoutCarry;
     }
 
     /**
