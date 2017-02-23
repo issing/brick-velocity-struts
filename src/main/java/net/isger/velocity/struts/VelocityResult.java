@@ -82,7 +82,6 @@ public class VelocityResult extends
             location += getProperty(stack, velocity, KEY_VELOCITY_INDEX,
                     this.velocityIndex, VELOCITY_INDEX);
         }
-        location += velocitySuffix;
         // 获取主题信息
         this.theme = new ThemeBean();
         this.theme.setPath(getProperty(stack, velocity, KEY_THEME_PATH,
@@ -98,14 +97,14 @@ public class VelocityResult extends
         this.layout.setPath(getProperty(stack, velocity, KEY_LAYOUT_PATH,
                 this.layoutPath, LAYOUT_PATH));
         this.layout.setName(getProperty(stack, velocity, KEY_LAYOUT_NAME,
-                this.layoutName, LAYOUT_NAME) + velocitySuffix);
+                this.layoutName, LAYOUT_NAME));
         this.layout.setCarry(Boolean.parseBoolean(getProperty(stack, velocity,
                 KEY_LAYOUT_CARRY, this.layoutCarry, LAYOUT_CARRY)));
         if (this.layout.isSupport()) {
             // 提取内容页面
             if (this.layout.isCarry()) {
                 this.template = super.getTemplate(stack, velocity, invocation,
-                        this.theme.getLocation(), encoding);
+                        this.theme.getLocation() + velocitySuffix, encoding);
             }
             // 获取布局参数
             StringBuffer buffer = new StringBuffer(128);
@@ -117,8 +116,8 @@ public class VelocityResult extends
             location = this.theme.getLocation();
         }
         // 提取目标模板（布局/内容）
-        return super.getTemplate(stack, velocity, invocation, location,
-                encoding);
+        return super.getTemplate(stack, velocity, invocation, location
+                + velocitySuffix, encoding);
     }
 
     protected Context createContext(VelocityManager velocityManager,
