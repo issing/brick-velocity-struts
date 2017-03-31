@@ -33,6 +33,9 @@
         <param name="layoutName">${screen.see("@layoutName", "")}</param>
         <param name="layoutCarry">${screen.see("@layoutCarry", "")}</param>
       </result>
+      <result name="redirect" type="redirect">
+        <param name="location">${screen.see("@location", "")}</param>
+      </result>
     </action>
   </package>
 </struts>

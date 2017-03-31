@@ -10,6 +10,10 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
+import org.apache.velocity.app.VelocityEngine;
+
+import net.isger.brick.inject.ConstantStrategy;
+import net.isger.brick.web.BrickListener;
 import net.isger.util.Strings;
 import net.isger.velocity.VelocityConstants;
 import net.isger.velocity.directive.DirectiveLibrary;
@@ -25,6 +29,13 @@ public class VelocityManager extends
     private static final String KEY_DIRECTIVE = "userdirective";
 
     private List<DirectiveLibrary> libraries;
+
+    public synchronized void init(ServletContext context) {
+        super.init(context);
+        ConstantStrategy.set(BrickListener.getConsole(context).getContainer(),
+                VelocityEngine.class, VelocityConstants.KEY_ENGINE,
+                this.getVelocityEngine());
+    }
 
     public void setContainer(Container container) {
         super.setContainer(container);
