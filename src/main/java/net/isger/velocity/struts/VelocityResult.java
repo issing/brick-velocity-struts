@@ -88,7 +88,7 @@ public class VelocityResult extends
                 this.themePath, THEME_PATH));
         this.theme.setName(getProperty(stack, velocity, KEY_THEME_NAME,
                 this.themeName, THEME_NAME));
-        this.theme.setLocation(location);
+        this.theme.setAction(location);
         // 检查布局信息
         this.layout = new LayoutBean();
         this.layout.setSupport(Boolean.parseBoolean(getProperty(stack,
