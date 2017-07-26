@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.isger.brick.web.BrickListener;
 import net.isger.util.Strings;
 import net.isger.velocity.ContextSecretary;
 import net.isger.velocity.VelocityConstants;
@@ -126,6 +127,7 @@ public class VelocityResult extends
         VelocityContext context = new VelocityContext(
                 velocityManager.getVelocityEngine(), super.createContext(
                         velocityManager, stack, request, response, location));
+        context.put(BrickListener.class.getSimpleName(), BrickListener.class);
         ContextSecretary secretary = context.getSecretary();
         secretary.setTheme(theme);
         secretary.setLayout(layout);
