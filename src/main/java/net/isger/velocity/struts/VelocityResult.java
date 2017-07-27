@@ -5,14 +5,6 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.isger.brick.web.BrickListener;
-import net.isger.util.Strings;
-import net.isger.velocity.ContextSecretary;
-import net.isger.velocity.VelocityConstants;
-import net.isger.velocity.VelocityContext;
-import net.isger.velocity.bean.LayoutBean;
-import net.isger.velocity.bean.ThemeBean;
-
 import org.apache.struts2.views.velocity.VelocityManager;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
@@ -21,9 +13,16 @@ import org.apache.velocity.context.Context;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.util.ValueStack;
 
-public class VelocityResult extends
-        org.apache.struts2.dispatcher.VelocityResult implements
-        VelocityConstants {
+import net.isger.brick.web.BrickListener;
+import net.isger.util.Strings;
+import net.isger.velocity.ContextSecretary;
+import net.isger.velocity.VelocityConstants;
+import net.isger.velocity.VelocityContext;
+import net.isger.velocity.bean.LayoutBean;
+import net.isger.velocity.bean.ThemeBean;
+
+public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
+        implements VelocityConstants {
 
     private static final long serialVersionUID = -3630891950185638015L;
 
@@ -77,11 +76,20 @@ public class VelocityResult extends
         String velocitySuffix = getProperty(stack, velocity,
                 KEY_VELOCITY_SUFFIX, this.velocitySuffix, VELOCITY_SUFFIX);
         String target = conditionalParse(this.target, invocation);
-        if (Strings.isNotEmpty(target)) {
-            location += "/" + target;
-        } else if (location.endsWith("/")) {
-            location += getProperty(stack, velocity, KEY_VELOCITY_INDEX,
-                    this.velocityIndex, VELOCITY_INDEX);
+        if (Strings.isEmpty(target)) {
+            if (location.endsWith("/")) {
+                target = getProperty(stack, velocity, KEY_VELOCITY_INDEX,
+                        this.velocityIndex, VELOCITY_INDEX);
+            } else {
+                int index = location.lastIndexOf("/");
+                if (index > 0) {
+                    target = location.substring(index + 1);
+                    location = location.substring(0, index);
+                } else {
+                    target = location;
+                    location = "";
+                }
+            }
         }
         // 获取主题信息
         this.theme = new ThemeBean();
@@ -89,12 +97,12 @@ public class VelocityResult extends
                 this.themePath, THEME_PATH));
         this.theme.setName(getProperty(stack, velocity, KEY_THEME_NAME,
                 this.themeName, THEME_NAME));
-        this.theme.setAction(location);
+        this.theme.setNamespace(location);
+        this.theme.setAction(target);
         // 检查布局信息
         this.layout = new LayoutBean();
-        this.layout.setSupport(Boolean.parseBoolean(getProperty(stack,
-                velocity, KEY_LAYOUT_SUPPORT, this.layoutSupport,
-                LAYOUT_SUPPORT)));
+        this.layout.setSupport(Boolean.parseBoolean(getProperty(stack, velocity,
+                KEY_LAYOUT_SUPPORT, this.layoutSupport, LAYOUT_SUPPORT)));
         this.layout.setPath(getProperty(stack, velocity, KEY_LAYOUT_PATH,
                 this.layoutPath, LAYOUT_PATH));
         this.layout.setName(getProperty(stack, velocity, KEY_LAYOUT_NAME,
@@ -117,8 +125,8 @@ public class VelocityResult extends
             location = this.theme.getLocation();
         }
         // 提取目标模板（布局/内容）
-        return super.getTemplate(stack, velocity, invocation, location
-                + velocitySuffix, encoding);
+        return super.getTemplate(stack, velocity, invocation,
+                location + velocitySuffix, encoding);
     }
 
     protected Context createContext(VelocityManager velocityManager,
