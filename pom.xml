@@ -24,7 +24,7 @@
   </properties>
 
   <dependencies>
-    <!-- 工具依赖 -->
+    <!-- 容器依赖 -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
