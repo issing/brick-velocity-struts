@@ -12,17 +12,17 @@ import javax.servlet.ServletContext;
 
 import org.apache.velocity.app.VelocityEngine;
 
+import com.opensymphony.xwork2.inject.Container;
+
 import net.isger.brick.inject.ConstantStrategy;
 import net.isger.brick.web.BrickListener;
 import net.isger.util.Strings;
 import net.isger.velocity.VelocityConstants;
 import net.isger.velocity.directive.DirectiveLibrary;
 
-import com.opensymphony.xwork2.inject.Container;
-
-public class VelocityManager extends
-        org.apache.struts2.views.velocity.VelocityManager implements
-        VelocityConstants {
+public class VelocityManager
+        extends org.apache.struts2.views.velocity.VelocityManager
+        implements VelocityConstants {
 
     private static final String KEY_FILE_PATH = "strutsfile.resource.loader.path";
 
@@ -93,7 +93,9 @@ public class VelocityManager extends
         String path;
         while (st.hasMoreTokens()) {
             path = st.nextToken();
-            if (!new File(path).isAbsolute()) {
+            if (new File(path).isAbsolute()) {
+                append(buffer, path);
+            } else {
                 append(buffer, context.getRealPath(path));
             }
         }

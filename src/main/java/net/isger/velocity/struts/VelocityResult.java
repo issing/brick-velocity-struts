@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.views.velocity.VelocityManager;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
@@ -14,6 +15,8 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.util.ValueStack;
 
 import net.isger.brick.web.BrickListener;
+import net.isger.brick.web.WebConstants;
+import net.isger.util.Helpers;
 import net.isger.util.Strings;
 import net.isger.velocity.ContextSecretary;
 import net.isger.velocity.VelocityConstants;
@@ -72,6 +75,11 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
     protected Template getTemplate(ValueStack stack, VelocityEngine velocity,
             ActionInvocation invocation, String location, String encoding)
             throws Exception {
+        String[] pending = location.split("[:]");
+        if (pending.length > 1) {
+            this.themeName = pending[0];
+            location = Strings.append(pending, 1);
+        }
         this.invocation = invocation;
         String velocitySuffix = getProperty(stack, velocity,
                 KEY_VELOCITY_SUFFIX, this.velocitySuffix, VELOCITY_SUFFIX);
@@ -95,8 +103,15 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         this.theme = new ThemeBean();
         this.theme.setPath(getProperty(stack, velocity, KEY_THEME_PATH,
                 this.themePath, THEME_PATH));
-        this.theme.setName(getProperty(stack, velocity, KEY_THEME_NAME,
-                this.themeName, THEME_NAME));
+        String themeName = getProperty(stack, velocity, KEY_THEME_NAME,
+                this.themeName, THEME_NAME);
+        HttpServletRequest request = ServletActionContext.getRequest();
+        if (Helpers.toBoolean(Strings.empty(
+                request.getAttribute(WebConstants.BRICK_WEB_MOBILE),
+                "false"))) {
+            themeName += "-mobile";
+        }
+        this.theme.setName(themeName);
         this.theme.setNamespace(location);
         this.theme.setAction(target);
         // 检查布局信息
