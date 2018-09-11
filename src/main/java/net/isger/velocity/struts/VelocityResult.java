@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.util.ValueStack;
 
 import net.isger.brick.web.BrickListener;
 import net.isger.brick.web.WebConstants;
+import net.isger.brick.web.WebIdentity;
 import net.isger.util.Helpers;
 import net.isger.util.Strings;
 import net.isger.velocity.ContextSecretary;
@@ -150,7 +151,8 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         VelocityContext context = new VelocityContext(
                 velocityManager.getVelocityEngine(), super.createContext(
                         velocityManager, stack, request, response, location));
-        context.put(BrickListener.class.getSimpleName(), BrickListener.class);
+        context.put(BrickListener.class);
+        context.put(WebIdentity.class);
         ContextSecretary secretary = context.getSecretary();
         secretary.setTheme(theme);
         secretary.setLayout(layout);
