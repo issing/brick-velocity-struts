@@ -79,7 +79,7 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         String[] pending = location.split("[:]");
         if (pending.length > 1) {
             this.themeName = pending[0];
-            location = Strings.join(pending, 1);
+            location = Strings.join(false, pending, 1);
         }
         this.invocation = invocation;
         String velocitySuffix = getProperty(stack, velocity,
