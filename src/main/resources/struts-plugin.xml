@@ -40,8 +40,7 @@
         <param name="contentType">${screen.see("@contentType", "application/x-msdownload")}</param>
         <param name="inputName">inputStream</param>
         <param name="contentDisposition">
-          attachment; filename=${screen.see("@name",
-          "{2}")}
+          attachment; filename=${screen.see("@name", "{2}")}
         </param>
         <param name="bufferSize">${screen.see("@buffer", "1024")}</param>
       </result>

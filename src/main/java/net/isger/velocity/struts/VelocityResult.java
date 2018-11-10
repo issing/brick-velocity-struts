@@ -46,6 +46,8 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
 
     private String themeName;
 
+    private String mobileSupport;
+
     private String layoutSupport;
 
     private String layoutPath;
@@ -107,9 +109,12 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         String themeName = getProperty(stack, velocity, KEY_THEME_NAME,
                 this.themeName, THEME_NAME);
         HttpServletRequest request = ServletActionContext.getRequest();
-        if (Helpers.toBoolean(Strings.empty(
-                request.getAttribute(WebConstants.BRICK_WEB_MOBILE),
-                "false"))) {
+        if (Helpers
+                .toBoolean(Strings.empty(
+                        request.getAttribute(WebConstants.BRICK_WEB_MOBILE),
+                        NONSUPPORT))
+                && Helpers.toBoolean(getProperty(stack, velocity,
+                        KEY_MOBILE_SUPPORT, this.mobileSupport, NONSUPPORT))) {
             themeName += "-mobile";
         }
         this.theme.setName(themeName);
@@ -118,7 +123,7 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         // 检查布局信息
         this.layout = new LayoutBean();
         this.layout.setSupport(Boolean.parseBoolean(getProperty(stack, velocity,
-                KEY_LAYOUT_SUPPORT, this.layoutSupport, LAYOUT_SUPPORT)));
+                KEY_LAYOUT_SUPPORT, this.layoutSupport, SUPPORT)));
         this.layout.setPath(getProperty(stack, velocity, KEY_LAYOUT_PATH,
                 this.layoutPath, LAYOUT_PATH));
         this.layout.setName(getProperty(stack, velocity, KEY_LAYOUT_NAME,
@@ -217,6 +222,14 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
 
     public void setLayoutCarry(String layoutCarry) {
         this.layoutCarry = layoutCarry;
+    }
+
+    public String getMobileSupport() {
+        return mobileSupport;
+    }
+
+    public void setMobileSupport(String mobileSupport) {
+        this.mobileSupport = mobileSupport;
     }
 
     /**
