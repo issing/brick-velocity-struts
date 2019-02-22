@@ -112,9 +112,10 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         if (Helpers
                 .toBoolean(Strings.empty(
                         request.getAttribute(WebConstants.BRICK_WEB_MOBILE),
-                        NONSUPPORT))
+                        Boolean.FALSE.toString()))
                 && Helpers.toBoolean(getProperty(stack, velocity,
-                        KEY_MOBILE_SUPPORT, this.mobileSupport, NONSUPPORT))) {
+                        KEY_MOBILE_SUPPORT, this.mobileSupport,
+                        Boolean.FALSE.toString()))) {
             themeName += "-mobile";
         }
         this.theme.setName(themeName);
@@ -122,14 +123,15 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         this.theme.setAction(target);
         // 检查布局信息
         this.layout = new LayoutBean();
-        this.layout.setSupport(Boolean.parseBoolean(getProperty(stack, velocity,
-                KEY_LAYOUT_SUPPORT, this.layoutSupport, SUPPORT)));
+        this.layout.setSupport(Boolean
+                .parseBoolean(getProperty(stack, velocity, KEY_LAYOUT_SUPPORT,
+                        this.layoutSupport, Boolean.TRUE.toString())));
         this.layout.setPath(getProperty(stack, velocity, KEY_LAYOUT_PATH,
                 this.layoutPath, LAYOUT_PATH));
         this.layout.setName(getProperty(stack, velocity, KEY_LAYOUT_NAME,
                 this.layoutName, LAYOUT_NAME));
         this.layout.setCarry(Boolean.parseBoolean(getProperty(stack, velocity,
-                KEY_LAYOUT_CARRY, this.layoutCarry, LAYOUT_CARRY)));
+                KEY_LAYOUT_CARRY, this.layoutCarry, Boolean.TRUE.toString())));
         if (this.layout.isSupport()) {
             // 提取内容页面
             if (this.layout.isCarry()) {
