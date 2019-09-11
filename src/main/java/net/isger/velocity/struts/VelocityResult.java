@@ -25,8 +25,7 @@ import net.isger.velocity.VelocityContext;
 import net.isger.velocity.bean.LayoutBean;
 import net.isger.velocity.bean.ThemeBean;
 
-public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
-        implements VelocityConstants {
+public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult implements VelocityConstants {
 
     private static final long serialVersionUID = -3630891950185638015L;
 
@@ -60,8 +59,7 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
 
     private LayoutBean layout;
 
-    public void doExecute(String finalLocation, ActionInvocation invocation)
-            throws Exception {
+    public void doExecute(String finalLocation, ActionInvocation invocation) throws Exception {
         this.invocation = invocation;
         super.doExecute(finalLocation, invocation);
     }
@@ -75,22 +73,18 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         return contentType;
     }
 
-    protected Template getTemplate(ValueStack stack, VelocityEngine velocity,
-            ActionInvocation invocation, String location, String encoding)
-            throws Exception {
+    protected Template getTemplate(ValueStack stack, VelocityEngine velocity, ActionInvocation invocation, String location, String encoding) throws Exception {
         String[] pending = location.split("[:]");
         if (pending.length > 1) {
             this.themeName = pending[0];
             location = Strings.join(false, pending, 1);
         }
         this.invocation = invocation;
-        String velocitySuffix = getProperty(stack, velocity,
-                KEY_VELOCITY_SUFFIX, this.velocitySuffix, VELOCITY_SUFFIX);
+        String velocitySuffix = getProperty(stack, velocity, KEY_VELOCITY_SUFFIX, this.velocitySuffix, VELOCITY_SUFFIX);
         String target = conditionalParse(this.target, invocation);
         if (Strings.isEmpty(target)) {
             if (location.endsWith("/")) {
-                target = getProperty(stack, velocity, KEY_VELOCITY_INDEX,
-                        this.velocityIndex, VELOCITY_INDEX);
+                target = getProperty(stack, velocity, KEY_VELOCITY_INDEX, this.velocityIndex, VELOCITY_INDEX);
             } else {
                 int index = location.lastIndexOf("/");
                 if (index > 0) {
@@ -104,18 +98,10 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         }
         // 获取主题信息
         this.theme = new ThemeBean();
-        this.theme.setPath(getProperty(stack, velocity, KEY_THEME_PATH,
-                this.themePath, THEME_PATH));
-        String themeName = getProperty(stack, velocity, KEY_THEME_NAME,
-                this.themeName, THEME_NAME);
+        this.theme.setPath(getProperty(stack, velocity, KEY_THEME_PATH, this.themePath, THEME_PATH));
+        String themeName = getProperty(stack, velocity, KEY_THEME_NAME, this.themeName, THEME_NAME);
         HttpServletRequest request = ServletActionContext.getRequest();
-        if (Helpers
-                .toBoolean(Strings.empty(
-                        request.getAttribute(WebConstants.BRICK_WEB_MOBILE),
-                        Boolean.FALSE.toString()))
-                && Helpers.toBoolean(getProperty(stack, velocity,
-                        KEY_MOBILE_SUPPORT, this.mobileSupport,
-                        Boolean.FALSE.toString()))) {
+        if (Helpers.toBoolean(Strings.empty(request.getAttribute(WebConstants.BRICK_WEB_MOBILE), Boolean.FALSE.toString())) && Helpers.toBoolean(getProperty(stack, velocity, KEY_MOBILE_SUPPORT, this.mobileSupport, Boolean.FALSE.toString()))) {
             themeName += "-mobile";
         }
         this.theme.setName(themeName);
@@ -123,20 +109,14 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
         this.theme.setAction(target);
         // 检查布局信息
         this.layout = new LayoutBean();
-        this.layout.setSupport(Boolean
-                .parseBoolean(getProperty(stack, velocity, KEY_LAYOUT_SUPPORT,
-                        this.layoutSupport, Boolean.TRUE.toString())));
-        this.layout.setPath(getProperty(stack, velocity, KEY_LAYOUT_PATH,
-                this.layoutPath, LAYOUT_PATH));
-        this.layout.setName(getProperty(stack, velocity, KEY_LAYOUT_NAME,
-                this.layoutName, LAYOUT_NAME));
-        this.layout.setCarry(Boolean.parseBoolean(getProperty(stack, velocity,
-                KEY_LAYOUT_CARRY, this.layoutCarry, Boolean.TRUE.toString())));
+        this.layout.setSupport(Boolean.parseBoolean(getProperty(stack, velocity, KEY_LAYOUT_SUPPORT, this.layoutSupport, Boolean.TRUE.toString())));
+        this.layout.setPath(getProperty(stack, velocity, KEY_LAYOUT_PATH, this.layoutPath, LAYOUT_PATH));
+        this.layout.setName(getProperty(stack, velocity, KEY_LAYOUT_NAME, this.layoutName, LAYOUT_NAME));
+        this.layout.setCarry(Boolean.parseBoolean(getProperty(stack, velocity, KEY_LAYOUT_CARRY, this.layoutCarry, Boolean.TRUE.toString())));
         if (this.layout.isSupport()) {
             // 提取内容页面
             if (this.layout.isCarry()) {
-                this.template = super.getTemplate(stack, velocity, invocation,
-                        this.theme.getLocation() + velocitySuffix, encoding);
+                this.template = super.getTemplate(stack, velocity, invocation, this.theme.getLocation() + velocitySuffix, encoding);
             }
             // 获取布局参数
             StringBuffer buffer = new StringBuffer(128);
@@ -148,16 +128,11 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
             location = this.theme.getLocation();
         }
         // 提取目标模板（布局/内容）
-        return super.getTemplate(stack, velocity, invocation,
-                location + velocitySuffix, encoding);
+        return super.getTemplate(stack, velocity, invocation, location + velocitySuffix, encoding);
     }
 
-    protected Context createContext(VelocityManager velocityManager,
-            ValueStack stack, HttpServletRequest request,
-            HttpServletResponse response, String location) {
-        VelocityContext context = new VelocityContext(
-                velocityManager.getVelocityEngine(), super.createContext(
-                        velocityManager, stack, request, response, location));
+    protected Context createContext(VelocityManager velocityManager, ValueStack stack, HttpServletRequest request, HttpServletResponse response, String location) {
+        VelocityContext context = new VelocityContext(velocityManager.getVelocityEngine(), super.createContext(velocityManager, stack, request, response, location));
         context.put(BrickListener.class);
         context.put(WebIdentity.class);
         ContextSecretary secretary = context.getSecretary();
@@ -245,8 +220,7 @@ public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult
      * @param def
      * @return
      */
-    private String getProperty(ValueStack stack, VelocityEngine velocity,
-            String key, String local, String def) {
+    private String getProperty(ValueStack stack, VelocityEngine velocity, String key, String local, String def) {
         String result = stack.findString(key);
         if (Strings.isNotEmpty(result)) {
             return result;

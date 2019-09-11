@@ -5,13 +5,11 @@
 <struts>
   <constant name="struts.velocity.manager.classname" value="net.isger.velocity.struts.VelocityManager" />
 
-  <bean type="net.isger.velocity.directive.DirectiveLibrary" name="x"
-    class="net.isger.velocity.directive.DefaultDirectiveLibrary" />
+  <bean type="net.isger.velocity.directive.DirectiveLibrary" name="x" class="net.isger.velocity.directive.DefaultDirectiveLibrary" />
 
   <package name="brick-velocity" extends="brick-default">
     <result-types>
-      <result-type name="velocity"
-        class="net.isger.velocity.struts.VelocityResult" default="true" />
+      <result-type name="velocity" class="net.isger.velocity.struts.VelocityResult" default="true" />
     </result-types>
 
     <global-results>
@@ -39,9 +37,7 @@
       <result name="stream" type="stream">
         <param name="contentType">${screen.see("@contentType", "application/x-msdownload")}</param>
         <param name="inputName">inputStream</param>
-        <param name="contentDisposition">
-          attachment; filename=${screen.see("@name", "{2}")}
-        </param>
+        <param name="contentDisposition">attachment; filename=${screen.see("@name", "{2}")}</param>
         <param name="bufferSize">${screen.see("@buffer", "1024")}</param>
       </result>
     </action>
