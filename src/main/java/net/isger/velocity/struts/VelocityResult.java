@@ -25,7 +25,7 @@ import net.isger.velocity.VelocityContext;
 import net.isger.velocity.bean.LayoutBean;
 import net.isger.velocity.bean.ThemeBean;
 
-public class VelocityResult extends org.apache.struts2.dispatcher.VelocityResult implements VelocityConstants {
+public class VelocityResult extends org.apache.struts2.result.VelocityResult implements VelocityConstants {
 
     private static final long serialVersionUID = -3630891950185638015L;
 
