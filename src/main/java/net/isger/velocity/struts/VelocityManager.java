@@ -20,9 +20,13 @@ import net.isger.util.Strings;
 import net.isger.velocity.VelocityConstants;
 import net.isger.velocity.directive.DirectiveLibrary;
 
-public class VelocityManager
-        extends org.apache.struts2.views.velocity.VelocityManager
-        implements VelocityConstants {
+/**
+ * 模板管理器
+ * 
+ * @author issing
+ *
+ */
+public class VelocityManager extends org.apache.struts2.views.velocity.VelocityManager implements VelocityConstants {
 
     private static final String KEY_FILE_PATH = "strutsfile.resource.loader.path";
 
@@ -32,16 +36,13 @@ public class VelocityManager
 
     public synchronized void init(ServletContext context) {
         super.init(context);
-        ConstantStrategy.set(BrickListener.getConsole(context).getContainer(),
-                VelocityEngine.class, VelocityConstants.KEY_ENGINE,
-                this.getVelocityEngine());
+        ConstantStrategy.set(BrickListener.getConsole(context).getContainer(), VelocityEngine.class, VelocityConstants.KEY_ENGINE, this.getVelocityEngine());
     }
 
     public void setContainer(Container container) {
         super.setContainer(container);
         List<DirectiveLibrary> list = new ArrayList<DirectiveLibrary>();
-        Set<String> prefixes = container
-                .getInstanceNames(DirectiveLibrary.class);
+        Set<String> prefixes = container.getInstanceNames(DirectiveLibrary.class);
         for (String prefix : prefixes) {
             list.add(container.getInstance(DirectiveLibrary.class, prefix));
         }
@@ -53,7 +54,7 @@ public class VelocityManager
         Properties props = super.loadConfiguration(context);
         String paths = props.getProperty(KEY_FILE_PATH);
         if (paths != null) {
-            props.setProperty(KEY_FILE_PATH, transPath(context, paths));
+            props.setProperty(KEY_FILE_PATH, transform(context, paths));
         }
         // 自定义砖头指令集
         StringBuffer buffer = new StringBuffer(512);
@@ -87,12 +88,12 @@ public class VelocityManager
         }
     }
 
-    private String transPath(ServletContext context, String paths) {
+    private String transform(ServletContext context, String paths) {
         StringBuffer buffer = new StringBuffer(512);
-        StringTokenizer st = new StringTokenizer(paths, ",");
+        StringTokenizer tokenizer = new StringTokenizer(paths, ",");
         String path;
-        while (st.hasMoreTokens()) {
-            path = st.nextToken();
+        while (tokenizer.hasMoreTokens()) {
+            path = tokenizer.nextToken();
             if (new File(path).isAbsolute()) {
                 append(buffer, path);
             } else {
