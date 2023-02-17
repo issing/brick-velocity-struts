@@ -15,7 +15,7 @@ import org.apache.velocity.app.VelocityEngine;
 import com.opensymphony.xwork2.inject.Container;
 
 import net.isger.brick.inject.ConstantStrategy;
-import net.isger.brick.web.BrickListener;
+import net.isger.brick.util.WebHelpers;
 import net.isger.util.Strings;
 import net.isger.velocity.VelocityConstants;
 import net.isger.velocity.directive.DirectiveLibrary;
@@ -36,7 +36,7 @@ public class VelocityManager extends org.apache.struts2.views.velocity.VelocityM
 
     public synchronized void init(ServletContext context) {
         super.init(context);
-        ConstantStrategy.set(BrickListener.getConsole(context).getContainer(), VelocityEngine.class, VelocityConstants.KEY_ENGINE, this.getVelocityEngine());
+        ConstantStrategy.set(WebHelpers.getConsole(context).getContainer(), VelocityEngine.class, VelocityConstants.KEY_ENGINE, this.getVelocityEngine());
     }
 
     public void setContainer(Container container) {

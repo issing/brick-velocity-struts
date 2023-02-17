@@ -107,7 +107,7 @@ public class VelocityResult extends org.apache.struts2.result.VelocityResult imp
         this.theme.setPath(getProperty(stack, velocity, KEY_THEME_PATH, this.themePath, THEME_PATH));
         String themeName = getProperty(stack, velocity, KEY_THEME_NAME, this.themeName, THEME_NAME);
         HttpServletRequest request = ServletActionContext.getRequest();
-        if (Helpers.toBoolean(Strings.empty(request.getAttribute(WebConstants.BRICK_WEB_MOBILE), Boolean.FALSE.toString())) && Helpers.toBoolean(getProperty(stack, velocity, KEY_MOBILE_SUPPORT, this.mobileSupport, Boolean.FALSE.toString()))) {
+        if (Helpers.toBoolean(Strings.empty(request.getAttribute(WebConstants.KEY_MOBILE), Boolean.FALSE.toString())) && Helpers.toBoolean(getProperty(stack, velocity, KEY_MOBILE_SUPPORT, this.mobileSupport, Boolean.FALSE.toString()))) {
             themeName += "-mobile";
         }
         this.theme.setName(themeName);
