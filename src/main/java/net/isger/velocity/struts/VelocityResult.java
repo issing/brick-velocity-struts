@@ -14,9 +14,9 @@ import org.apache.velocity.context.Context;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.util.ValueStack;
 
-import net.isger.brick.web.BrickListener;
 import net.isger.brick.web.WebConstants;
 import net.isger.brick.web.WebIdentity;
+import net.isger.brick.web.listener.BrickListener;
 import net.isger.util.Helpers;
 import net.isger.util.Strings;
 import net.isger.velocity.ContextSecretary;
